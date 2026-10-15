@@ -1,0 +1,135 @@
+/* jetbrains mono, served locally so the terminal looks the same on every device */
+@font-face { font-family: "JetBrains Mono"; src: url(fonts/JetBrainsMono-Regular.woff2) format("woff2"); font-weight: 400; font-style: normal; font-display: block; }
+@font-face { font-family: "JetBrains Mono"; src: url(fonts/JetBrainsMono-Bold.woff2) format("woff2"); font-weight: 700; font-style: normal; font-display: block; }
+@font-face { font-family: "JetBrains Mono"; src: url(fonts/JetBrainsMono-Italic.woff2) format("woff2"); font-weight: 400; font-style: italic; font-display: block; }
+@font-face { font-family: "JetBrains Mono"; src: url(fonts/JetBrainsMono-BoldItalic.woff2) format("woff2"); font-weight: 700; font-style: italic; font-display: block; }
+
+:root {
+  --bg: #0d0f12;
+  --panel: #161a20;
+  --line: #262c35;
+  --text: #d6dbe1;
+  --dim: #7d8794;
+  --accent: #6cb6ff;
+  --danger: #ff7b72;
+  --mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  height: 100%;
+  background: var(--bg);
+  color: var(--text);
+  font: 14px/1.4 system-ui, sans-serif;
+  overflow: hidden;
+}
+
+/* body height follows the visual viewport so the phone keyboard doesn't cover the terminal */
+body { position: fixed; inset: 0 0 auto 0; display: flex; flex-direction: column; }
+
+button {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: 0;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.icon { display: grid; place-items: center; width: 32px; height: 32px; border-radius: 6px; color: var(--dim); }
+.icon:hover { background: var(--line); color: var(--text); }
+
+#bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 40px;
+  padding: 0 8px;
+  border-bottom: 1px solid var(--line);
+  flex: none;
+}
+#title { font-family: var(--mono); font-size: 13px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; flex: 1; cursor: pointer; }
+#status, #overview-msg { color: var(--danger); font-size: 12px; font-weight: normal; }
+#overview-msg { flex: 1; margin-left: 12px; }
+
+#term { flex: 1; min-height: 0; padding: 4px 0 0 6px; }
+
+/* extra keys, only on touch devices */
+#keys { display: none; flex: none; gap: 4px; padding: 4px; border-top: 1px solid var(--line); background: var(--panel); }
+@media (pointer: coarse) { #keys { display: flex; } }
+#keys button {
+  flex: 1;
+  height: 36px;
+  border-radius: 6px;
+  background: var(--line);
+  font-family: var(--mono);
+  font-size: 13px;
+  touch-action: manipulation;
+}
+#keys button.on { background: var(--accent); color: var(--bg); }
+
+#overview {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  background: var(--bg);
+  z-index: 10;
+}
+#overview[hidden] { display: none; }
+#overview > header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 40px;
+  padding: 0 8px 0 16px;
+  border-bottom: 1px solid var(--line);
+  font-weight: 600;
+  flex: none;
+}
+
+/* top ~40% lists the windows, bottom ~60% previews the focused one, like tmux choose-tree */
+#grid {
+  flex: 2 1 0;
+  min-height: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 12px;
+  padding: 16px;
+  overflow-y: auto;
+  align-content: start;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  padding: 0;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--panel);
+  overflow: hidden;
+}
+.card:hover { border-color: var(--dim); }
+.card.active { border-color: var(--accent); }
+.card-head { display: flex; align-items: center; gap: 8px; padding: 4px 4px 4px 12px; border-bottom: 1px solid var(--line); }
+.card-name { flex: 1; font-family: var(--mono); font-size: 13px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.card.active .card-name { color: var(--accent); }
+.card .kill:hover { color: var(--danger); }
+.card pre {
+  margin: 0;
+  height: 80px;
+  padding: 6px 8px;
+  overflow: hidden;
+  font: 7px/1.2 var(--mono);
+  color: var(--dim);
+}
+
+.card.new { align-items: center; justify-content: center; min-height: 120px; border-style: dashed; color: var(--dim); font-size: 15px; }
+.card.new:hover { color: var(--text); }
+.card:focus { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+#preview { flex: 3 1 0; min-height: 0; padding: 8px; overflow: hidden; border-top: 1px solid var(--line); background: var(--panel); }
+#preview pre { margin: 0; font-family: var(--mono); line-height: 1.2; color: var(--text); }

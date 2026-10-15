@@ -1,0 +1,18 @@
+
+> webtmux@1.0.0 start
+> node server.js
+
+webtmux on http://100.64.148.71:7681 (session "0")
+webtmux-555f1564: can't find window: @1760
+Terminated
+
+> webtmux@1.0.0 start
+> node server.js
+
+webtmux on http://100.64.148.71:7681 (session "0")
+Terminated
+
+> webtmux@1.0.0 start
+> node server.js
+
+webtmux on http://100.64.148.71:7681 (session "0")

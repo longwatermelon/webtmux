@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, interactive-widget=resizes-content">
+  <meta name="theme-color" content="#0d0f12">
+  <title>webtmux</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="xterm.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header id="bar">
+    <button id="windows-btn" class="icon" title="All windows" aria-label="All windows">
+      <svg viewBox="0 0 16 16" width="16" height="16"><path fill="currentColor" d="M1 1h6v6H1zm8 0h6v6H9zM1 9h6v6H1zm8 0h6v6H9z"/></svg>
+    </button>
+    <span id="title"></span>
+    <span id="status"></span>
+  </header>
+  <main id="term"></main>
+  <nav id="keys">
+    <button data-key="&#27;">esc</button>
+    <button data-key="&#9;">tab</button>
+    <button id="ctrl">ctrl</button>
+    <button data-key="&#27;[D">←</button>
+    <button data-key="&#27;[B">↓</button>
+    <button data-key="&#27;[A">↑</button>
+    <button data-key="&#27;[C">→</button>
+  </nav>
+  <section id="overview" hidden>
+    <header>
+      <span>Windows</span>
+      <span id="overview-msg"></span>
+      <button id="close-overview" class="icon" title="Back to terminal" aria-label="Back to terminal">✕</button>
+    </header>
+    <div id="grid"></div>
+    <div id="preview"><pre></pre></div>
+  </section>
+  <script src="xterm.js"></script>
+  <script src="addon-fit.js"></script>
+  <script src="addon-unicode11.js"></script>
+  <script src="addon-webgl.js"></script>
+  <script type="module" src="app.js"></script>
+</body>
+</html>
